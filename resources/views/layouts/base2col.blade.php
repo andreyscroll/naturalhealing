@@ -40,26 +40,18 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-uppercase">
-{{--                                <li class="nav-item dropdown">--}}
-{{--                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Категории</a>--}}
-{{--                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">--}}
-{{--                                        @foreach ($categories as $category)--}}
-{{--                                            <li>--}}
-{{--                                                <a class="dropdown-item" href="{{ route('category.show', ['slug' => $category->slug]) }}">{{ $category->title }}</a>--}}
-{{--                                            </li>--}}
-{{--                                        @endforeach--}}
-{{--                                    </ul>--}}
-{{--                                </li>--}}
+
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('home') }}">Главная</a>
                                 </li>
                                 @foreach($categories as $category)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('product.category', ['slug' => $category->slug]) }}">
-                                        {{ $category->name }}
-                                    </a>
-                                </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('product.category', ['slug' => $category->slug]) }}">
+                                            {{ $category->name }}
+                                        </a>
+                                    </li>
                                 @endforeach
+
                             </ul>
                             <form class="d-flex">
                                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -76,12 +68,20 @@
     <section class="main">
         <div class="container">
             <div class="row">
-                <div class="col-md">
+                <div class="col-md-9">
 
                     <div class="content">
-                        @yield('content')
+                        <div class="card shadow-sm p-3 mb-5 bg-body rounded">
+                            <div class="card-body">
+                                @yield('content')
+                            </div>
+                        </div>
+
                     </div>
 
+                </div>
+                <div class="col-md-3">
+                    {{-- Sidebar Component --}}
                 </div>
             </div>
         </div>

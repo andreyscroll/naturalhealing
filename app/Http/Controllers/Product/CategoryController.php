@@ -14,14 +14,8 @@ class CategoryController extends Controller
      */
     public function show($slug)
     {
-        /*
-         * Вариант
-         * подгрузить все категории вместе с дочерними
-         * методами коллекции найти нужную. тогда вместо 2 запросов к БД будет 1
-         */
-
         //Для меню
-        $categories = ProductCategory::where('parent_id', 0)->get();
+        //$categories = ProductCategory::where('parent_id', 0)->get();
 
         //загружаем запрошенную категорию
         $category = ProductCategory::where('slug', $slug)->firstOrFail();
@@ -43,6 +37,7 @@ class CategoryController extends Controller
             $products = Product::whereIn('product_category_id', $ids)->get();
         }
 
-        return view('product.category', compact('category', 'categories', 'childCategories', 'products'));
+        return view('product.category', compact('category', 'childCategories', 'products'));
+
     }
 }
