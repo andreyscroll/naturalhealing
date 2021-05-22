@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::limit(6)->get();
+        $products = Product::limit(12)->get();
         return view('product.index', compact('products'));
     }
 
@@ -25,6 +25,12 @@ class ProductController extends Controller
     public function show($slug)
     {
         $product = Product::with('category')->where('slug', $slug)->firstOrFail();
-        return view('product.product', compact('product'));
+
+        $randomProducts = Product::where('product_category_id', $product->category->id)
+            ->inRandomOrder()
+            ->limit(4)
+            ->get();
+
+        return view('product.product', compact('product', 'randomProducts'));
     }
 }

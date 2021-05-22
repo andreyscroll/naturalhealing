@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Page;
 use App\Models\ProductCategory;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,7 +27,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // расшариваем список главных категорий для всех вьюх
-        View::share('categories', ProductCategory::where('parent_id', 0)->get());
+        Paginator::useBootstrap();
+
+        View::composer([
+            'product.index',
+            'product.category',
+            'product.product',
+            'page',
+            'search'
+        ], function ($view) {
+            $view->with('categories', ProductCategory::select('name', 'slug')->where('parent_id', 0)->get());
+            $view->with('pages', Page::select('name', 'slug')->get());
+        });
     }
 }
