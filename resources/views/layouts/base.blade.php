@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="text-center">
-                        <img src="{{ asset("storage/uploads/images/logo.png") }}" alt="" class="mt-3">
+                        <img src="{{ asset("assets/img/logo.png") }}" alt="" class="mt-3">
                         <a href="{{ route('home') }}" class="logo_link">NaturalHealing</a>
                         <p class="logo_desc">Природное исцеление</p>
                     </div>
@@ -51,7 +51,7 @@
                                 </li>
                                 @endforeach
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Блог</a>
+                                    <a class="nav-link" href="{{ route('blog.index') }}">Блог</a>
                                 </li>
 
                             </ul>

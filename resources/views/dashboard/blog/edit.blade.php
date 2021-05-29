@@ -1,10 +1,10 @@
 @extends('layouts.dashboard')
 @section('title', 'Редактирование поста')
 @section('main')
-    <h1>Редактирование поста {{ $post->title }}</h1>
+    <h3>Редактирование поста "{{ $post->title }}"</h3>
     <form action="{{ route('dashboard.blog.update', ['id' => $post->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
-        @method('POST')
+        @method('PUT')
         {{-- Title --}}
         <div class="mb-3">
             <label for="title" class="form-label">Заголовок</label>
@@ -30,10 +30,11 @@
             <input class="form-control" type="file" name="img" id="img">
         </div>
 
+        @isset($post->img)
         <div class="my-3">
-{{--            <img src="{{ storage_path($post->img) }}" class="img-thumbnail" alt="" width="300">--}}
             <img src="{{ asset("storage/{$post->img}") }}" class="img-thumbnail" alt="" width="300">
         </div>
+        @endisset
 
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>

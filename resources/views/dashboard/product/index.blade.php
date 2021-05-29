@@ -43,11 +43,9 @@
                     <td>{{ $product->category->name }}</td>
                     <td>
                         <a href="{{ route('product.show', ['slug' => $product->slug]) }}" target="_blank" title="Посмотреть страницу">
-                            <i class="bi bi-arrow-up-right-square"></i>
-                        </a>
+                            <i class="bi bi-arrow-up-right-square"></i></a>
                         <a href="{{ route('dashboard.product.edit', ['id' => $product->id]) }}" target="_blank" title="Редактировать страницу">
-                            <i class="bi bi-pencil-square text-success"></i>
-                        </a>
+                            <i class="bi bi-pencil-square text-success"></i></a>
                     </td>
                 </tr>
             @endforeach

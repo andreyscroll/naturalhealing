@@ -34,7 +34,9 @@ class AppServiceProvider extends ServiceProvider
             'product.category',
             'product.product',
             'page',
-            'search'
+            'search',
+            'blog.index',
+            'blog.show'
         ], function ($view) {
             $view->with('categories', ProductCategory::select('name', 'slug')->where('parent_id', 0)->get());
             $view->with('pages', Page::select('name', 'slug')->get());

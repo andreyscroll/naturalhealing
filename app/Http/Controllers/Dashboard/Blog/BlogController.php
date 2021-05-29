@@ -4,11 +4,20 @@ namespace App\Http\Controllers\Dashboard\Blog;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
+use App\Services\BlogService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
+    protected $blogService;
+
+    public function __construct(BlogService $blogService)
+    {
+        $this->blogService = $blogService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -48,15 +57,8 @@ class BlogController extends Controller
         $data = $request->only(['title', 'slug', 'excerpt', 'content']);
         $data['slug'] = Str::slug($data['slug']);
 
-        //Обработка картинки, если есть
-        if($request->hasFile('img')){
-            $img = $request->file('img');
-            $folderYear = date('Y');
-            $folderMonth = date('m');
-            $imgName = "{$data['slug']}-{$folderMonth}-{$folderYear}.{$img->extension()}";
-            $data['img'] = $img->storeAs("/public/uploads/images/{$folderYear}/{$folderMonth}", $imgName);
-        }
-
+        $data['img'] = $this->blogService->uploadImage($request);
+        
         BlogPost::create($data);
 
         return redirect()->route('dashboard.blog.index')->with('success', 'Статья успешно добавлена');
@@ -94,7 +96,20 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'img' => 'file|image|mimes:jpeg,png,gif,jpg',
+        ]);
+
+        $post = BlogPost::find($id);
+        $data = $request->only(['title', 'excerpt', 'content']);
+
+        $data['img'] = $this->blogService->uploadImage($request, $post->img);
+
+        $post->update($data);
+
+        return redirect()->route('dashboard.blog.index')->with('success', 'Изменения сохранены');
     }
 
     /**
@@ -105,6 +120,10 @@ class BlogController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = BlogPost::find($id);
+        Storage::delete($post->img);
+        $post->delete();
+
+        return redirect()->route('dashboard.blog.index')->with('success', 'Пост удален');
     }
 }

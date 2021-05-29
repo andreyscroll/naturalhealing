@@ -66,10 +66,10 @@
                     <h3>Страницы</h3>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Все страницы</a>
+                            <a class="nav-link active" href="{{ route('dashboard.page.index') }}">Все страницы</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Добавить страницу</a>
+                            <a class="nav-link active" href="{{ route('dashboard.page.create') }}">Добавить страницу</a>
                         </li>
                     </ul>
 

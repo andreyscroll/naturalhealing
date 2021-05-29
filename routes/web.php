@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return 'home';
-})->name('home');
+Route::get('/', [\App\Http\Controllers\MainController::class, 'index'])->name('home');
 
 //Товары
 Route::group(['prefix' => 'products'], function ()
@@ -24,6 +22,10 @@ Route::group(['prefix' => 'products'], function ()
     Route::get('/{slug}', [App\Http\Controllers\Product\ProductController::class, 'show'])->name('product.show');
     Route::get('/category/{slug}', [App\Http\Controllers\Product\CategoryController::class, 'show'])->name('product.category');
 });
+
+//Blog
+Route::get('/blog', [App\Http\Controllers\Blog\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [App\Http\Controllers\Blog\BlogController::class, 'showPost'])->name('blog.show');
 
 //Админка
 Route::group(['prefix' => 'dashboard'], function ()
@@ -60,6 +62,19 @@ Route::group(['prefix' => 'dashboard'], function ()
             'edit' => 'dashboard.blog.edit',
             'update' => 'dashboard.blog.update',
             'destroy' => 'dashboard.blog.destroy'
+        ]);
+
+    //Pages
+    Route::resource('page', \App\Http\Controllers\Dashboard\PageController::class)
+        ->except(['show'])
+        ->parameters(['page' => 'id'])
+        ->names([
+            'index' => 'dashboard.page.index',
+            'create' => 'dashboard.page.create',
+            'store' => 'dashboard.page.store',
+            'edit' => 'dashboard.page.edit',
+            'update' => 'dashboard.page.update',
+            'destroy' => 'dashboard.page.destroy'
         ]);
 
 
